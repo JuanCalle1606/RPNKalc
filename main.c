@@ -23,9 +23,10 @@ int main() {
 	stack_v.size = 0;
 	double_stack *stack = &stack_v;
 	char input[50];
-	double a = 0, b = 0;
+	double a = 0, b = 0, mem = 0;
 
 	while (1) {
+		printf("mem: %lf\n", mem);
 		printStack(stack);
 		printf("> ");
 		scanf("%s", input);
@@ -77,6 +78,26 @@ int main() {
 		} else if (strcmp(input, "log") == 0) {
 			if (stackpop(stack, &a) && stackpop(stack, &b))
 				stackpush(stack, log(b) / log(a));
+		} else if (strcmp(input, "m+") == 0) {
+			if (stackpop(stack, &a)) {
+				mem += a;
+			}
+		} else if (strcmp(input, "m-") == 0) {
+			if (stackpop(stack, &a)) {
+				mem -= a;
+			}
+		} else if (strcmp(input, "mc") == 0) {
+			mem = 0;
+		} else if (strcmp(input, "mr") == 0) {
+			stackpush(stack, mem);
+		} else if (strcmp(input, "ms") == 0) {
+			if (stackpop(stack, &a)) {
+				mem = a;
+			}
+		} else if (strcmp(input, "pop") == 0 || strcmp(input, "c") == 0) {
+			stackpop(stack, &a);
+		} else if (strcmp(input, "clear") == 0 || strcmp(input, "ac") == 0) {
+			stack->size = 0;
 		} else {
 			// try to read number
 			char *tmp;
