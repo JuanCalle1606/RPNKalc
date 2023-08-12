@@ -74,6 +74,9 @@ int main() {
 		} else if (strcmp(input, "exp") == 0) {
 			if (stackpop(stack, &a))
 				stackpush(stack, exp(a));
+		} else if (strcmp(input, "log") == 0) {
+			if (stackpop(stack, &a) && stackpop(stack, &b))
+				stackpush(stack, log(b) / log(a));
 		} else {
 			// try to read number
 			char *tmp;
@@ -97,16 +100,30 @@ void stackpush(double_stack *stack, double d) {
 	}
 }
 
-
 void printHelp() {
 	printf("Commands: \n"
 	       "help: show this help\n"
-	       "exit: close the app\n"
-	       "+: add first and second numbers on the stack\n"
-	       "-: subtracts first and second numbers on the stack\n"
-	       "*: multiply first and second numbers on the stack\n"
-	       "/: divide first and second numbers on the stack\n"
-	       "\n"
+	       "exit: close the app\n\n"
+	       "Basic operations:\n"
+	       "+: add first and second\n"
+	       "-: subtracts second with first\n"
+	       "*: multiply first and second\n"
+	       "/: divide second by first\n"
+	       "abs: absolute value of first\n\n"
+	       "Power functions:\n"
+	       "pow: raise second to first\n"
+	       "sqrt: compute square root of first\n\n"
+	       "Trigonometric functions:\n"
+	       "sin: compute cosine of first\n"
+	       "cos: compute sine of first\n"
+	       "tan: compute tangent of first\n\n"
+	       "Exponential and logarithmic functions:\n"
+	       "ln: Compute natural logarithm of first\n"
+	       "exp: Compute exponential function, which is e raised to the power first\n"
+	       "log: Compute the logarithm of second with base in first\n\n"
+	       "Constants:\n"
+	       "pi: push pi value\n"
+	       "e: push e value\n\n"
 	       "Press enter to continue\n"
 	);
 	char tmp;
@@ -129,6 +146,6 @@ int stackpop(double_stack *stack, double *out) {
 		*out = stack->stack[--stack->size];
 		return 1;
 	}
-	printf("Error: Not enough operands.");
+	printf("Error: Not enough operands.\n");
 	return 0;
 }
