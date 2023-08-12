@@ -13,11 +13,13 @@ typedef struct {
 
 void printStack(double_stack *stack);
 
-void printHelp();
+void printHelp(void);
 
 int stackpop(double_stack *stack, double *out);
 
 void stackpush(double_stack *stack, double d);
+
+double radians(double a);
 
 int main() {
 	double_stack stack_v;
@@ -31,6 +33,7 @@ int main() {
 		printStack(stack);
 		printf("> ");
 		scanf("%s", input);
+		printf("\033[2J");
 
 		if (CMD("help")) {
 			printHelp();
@@ -46,30 +49,38 @@ int main() {
 			if (stackpop(stack, &a) && stackpop(stack, &b))
 				stackpush(stack, a * b);
 		} else if (CMD("/")) {
-			if (stackpop(stack, &a) && stackpop(stack, &b))
-				stackpush(stack, b / a);
+			if (stackpop(stack, &a) && stackpop(stack, &b)) {
+				if (a) { stackpush(stack, b / a); }
+				else { printf("Math Error: Division by 0\n"); }
+			}
 		} else if (CMD("pow")) {
 			if (stackpop(stack, &a) && stackpop(stack, &b))
 				stackpush(stack, pow(b, a));
 		} else if (CMD("sqrt")) {
-			if (stackpop(stack, &a))
-				stackpush(stack, sqrt(a));
+			if (stackpop(stack, &a)) {
+				if (a >= 0) { stackpush(stack, sqrt(a)); }
+				else { printf("Math Error: Sqrt of a negative value\n"); }
+			}
 		} else if (CMD("ln")) {
-			if (stackpop(stack, &a))
-				stackpush(stack, log(a));
+			if (stackpop(stack, &a)) {
+				if (a > 0) { stackpush(stack, log(a)); }
+				else { printf("Math Error: Logarithm of a negative value\n"); }
+			}
 		} else if (CMD("pi")) {
 			stackpush(stack, M_PI);
 		} else if (CMD("e")) {
 			stackpush(stack, M_E);
 		} else if (CMD("sin")) {
 			if (stackpop(stack, &a))
-				stackpush(stack, sin(a));
+				stackpush(stack, sin(radians(a)));
 		} else if (CMD("cos")) {
 			if (stackpop(stack, &a))
-				stackpush(stack, cos(a));
+				stackpush(stack, cos(radians(a)));
 		} else if (CMD("tan")) {
-			if (stackpop(stack, &a))
-				stackpush(stack, tan(a));
+			if (stackpop(stack, &a)) {
+				if (fmod(a, 90) == 0) { printf("Math Error: Tangent of a multiple of 90\n"); }
+				else { stackpush(stack, tan(radians(a))); }
+			}
 		} else if (CMD("abs")) {
 			if (stackpop(stack, &a))
 				stackpush(stack, a < 0 ? a * -1 : a);
@@ -77,8 +88,10 @@ int main() {
 			if (stackpop(stack, &a))
 				stackpush(stack, exp(a));
 		} else if (CMD("log")) {
-			if (stackpop(stack, &a) && stackpop(stack, &b))
-				stackpush(stack, log(b) / log(a));
+			if (stackpop(stack, &a) && stackpop(stack, &b)) {
+				if (a > 0 && b > 0) { stackpush(stack, log(b) / log(a)); }
+				else { printf("Math Error: Logarithm of a negative value\n"); }
+			}
 		} else if (CMD("m+")) {
 			if (stackpop(stack, &a)) {
 				mem += a;
@@ -117,6 +130,10 @@ int main() {
 	return 0;
 }
 
+inline double radians(double a) {
+	return a * (M_PI / 180);
+}
+
 void stackpush(double_stack *stack, double d) {
 	if (stack->size < STACK) {
 		stack->stack[stack->size++] = d;
@@ -125,7 +142,7 @@ void stackpush(double_stack *stack, double d) {
 	}
 }
 
-void printHelp() {
+void printHelp(void) {
 	printf("Commands: \n"
 	       "help: show this help\n"
 	       "exit: close the app\n\n"
