@@ -81,10 +81,12 @@ int main() {
 		} else if (strcmp(input, "m+") == 0) {
 			if (stackpop(stack, &a)) {
 				mem += a;
+				stackpush(stack, a);
 			}
 		} else if (strcmp(input, "m-") == 0) {
 			if (stackpop(stack, &a)) {
 				mem -= a;
+				stackpush(stack, a);
 			}
 		} else if (strcmp(input, "mc") == 0) {
 			mem = 0;
@@ -93,6 +95,7 @@ int main() {
 		} else if (strcmp(input, "ms") == 0) {
 			if (stackpop(stack, &a)) {
 				mem = a;
+				stackpush(stack, a);
 			}
 		} else if (strcmp(input, "pop") == 0 || strcmp(input, "c") == 0) {
 			stackpop(stack, &a);
@@ -145,6 +148,14 @@ void printHelp() {
 	       "Constants:\n"
 	       "pi: push pi value\n"
 	       "e: push e value\n\n"
+	       "Memory and Stack:\n"
+	       "m+: Add the value on first to the memory value, dont pop first\n"
+	       "m-: Subtract the value on first from the memory value, dont pop first\n"
+	       "mr: push the value in the memory onto the stack\n"
+	       "mc: set the value of memory to 0\n"
+	       "ms: set the value of memory to first, dont pop first\n"
+	       "pop / c: remove the first element on the stack\n"
+	       "clear / ac: clear all the stack\n\n"
 	       "Press enter to continue\n"
 	);
 	char tmp;
