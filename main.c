@@ -46,6 +46,34 @@ int main() {
 		} else if (strcmp(input, "/") == 0) {
 			if (stackpop(stack, &a) && stackpop(stack, &b))
 				stackpush(stack, b / a);
+		} else if (strcmp(input, "pow") == 0) {
+			if (stackpop(stack, &a) && stackpop(stack, &b))
+				stackpush(stack, pow(b, a));
+		} else if (strcmp(input, "sqrt") == 0) {
+			if (stackpop(stack, &a))
+				stackpush(stack, sqrt(a));
+		} else if (strcmp(input, "ln") == 0) {
+			if (stackpop(stack, &a))
+				stackpush(stack, log(a));
+		} else if (strcmp(input, "pi") == 0) {
+			stackpush(stack, M_PI);
+		} else if (strcmp(input, "e") == 0) {
+			stackpush(stack, M_E);
+		} else if (strcmp(input, "sin") == 0) {
+			if (stackpop(stack, &a))
+				stackpush(stack, sin(a));
+		} else if (strcmp(input, "cos") == 0) {
+			if (stackpop(stack, &a))
+				stackpush(stack, cos(a));
+		} else if (strcmp(input, "tan") == 0) {
+			if (stackpop(stack, &a))
+				stackpush(stack, tan(a));
+		} else if (strcmp(input, "abs") == 0) {
+			if (stackpop(stack, &a))
+				stackpush(stack, a < 0 ? a * -1 : a);
+		} else if (strcmp(input, "exp") == 0) {
+			if (stackpop(stack, &a))
+				stackpush(stack, exp(a));
 		} else {
 			// try to read number
 			char *tmp;
