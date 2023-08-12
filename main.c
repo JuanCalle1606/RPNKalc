@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #define STACK 7
+#define CMD(x) strcmp(input, (x)) == 0
 
 typedef struct {
 	double stack[STACK];
@@ -31,75 +32,75 @@ int main() {
 		printf("> ");
 		scanf("%s", input);
 
-		if (strcmp(input, "help") == 0) {
+		if (CMD("help")) {
 			printHelp();
-		} else if (strcmp(input, "exit") == 0) {
+		} else if (CMD("exit")) {
 			break;
-		} else if (strcmp(input, "+") == 0) {
+		} else if (CMD("+")) {
 			if (stackpop(stack, &a) && stackpop(stack, &b))
 				stackpush(stack, a + b);
-		} else if (strcmp(input, "-") == 0) {
+		} else if (CMD("-")) {
 			if (stackpop(stack, &a) && stackpop(stack, &b))
 				stackpush(stack, b - a);
-		} else if (strcmp(input, "*") == 0) {
+		} else if (CMD("*")) {
 			if (stackpop(stack, &a) && stackpop(stack, &b))
 				stackpush(stack, a * b);
-		} else if (strcmp(input, "/") == 0) {
+		} else if (CMD("/")) {
 			if (stackpop(stack, &a) && stackpop(stack, &b))
 				stackpush(stack, b / a);
-		} else if (strcmp(input, "pow") == 0) {
+		} else if (CMD("pow")) {
 			if (stackpop(stack, &a) && stackpop(stack, &b))
 				stackpush(stack, pow(b, a));
-		} else if (strcmp(input, "sqrt") == 0) {
+		} else if (CMD("sqrt")) {
 			if (stackpop(stack, &a))
 				stackpush(stack, sqrt(a));
-		} else if (strcmp(input, "ln") == 0) {
+		} else if (CMD("ln")) {
 			if (stackpop(stack, &a))
 				stackpush(stack, log(a));
-		} else if (strcmp(input, "pi") == 0) {
+		} else if (CMD("pi")) {
 			stackpush(stack, M_PI);
-		} else if (strcmp(input, "e") == 0) {
+		} else if (CMD("e")) {
 			stackpush(stack, M_E);
-		} else if (strcmp(input, "sin") == 0) {
+		} else if (CMD("sin")) {
 			if (stackpop(stack, &a))
 				stackpush(stack, sin(a));
-		} else if (strcmp(input, "cos") == 0) {
+		} else if (CMD("cos")) {
 			if (stackpop(stack, &a))
 				stackpush(stack, cos(a));
-		} else if (strcmp(input, "tan") == 0) {
+		} else if (CMD("tan")) {
 			if (stackpop(stack, &a))
 				stackpush(stack, tan(a));
-		} else if (strcmp(input, "abs") == 0) {
+		} else if (CMD("abs")) {
 			if (stackpop(stack, &a))
 				stackpush(stack, a < 0 ? a * -1 : a);
-		} else if (strcmp(input, "exp") == 0) {
+		} else if (CMD("exp")) {
 			if (stackpop(stack, &a))
 				stackpush(stack, exp(a));
-		} else if (strcmp(input, "log") == 0) {
+		} else if (CMD("log")) {
 			if (stackpop(stack, &a) && stackpop(stack, &b))
 				stackpush(stack, log(b) / log(a));
-		} else if (strcmp(input, "m+") == 0) {
+		} else if (CMD("m+")) {
 			if (stackpop(stack, &a)) {
 				mem += a;
 				stackpush(stack, a);
 			}
-		} else if (strcmp(input, "m-") == 0) {
+		} else if (CMD("m-")) {
 			if (stackpop(stack, &a)) {
 				mem -= a;
 				stackpush(stack, a);
 			}
-		} else if (strcmp(input, "mc") == 0) {
+		} else if (CMD("mc")) {
 			mem = 0;
-		} else if (strcmp(input, "mr") == 0) {
+		} else if (CMD("mr")) {
 			stackpush(stack, mem);
-		} else if (strcmp(input, "ms") == 0) {
+		} else if (CMD("ms")) {
 			if (stackpop(stack, &a)) {
 				mem = a;
 				stackpush(stack, a);
 			}
-		} else if (strcmp(input, "pop") == 0 || strcmp(input, "c") == 0) {
+		} else if (CMD("pop") || CMD("c")) {
 			stackpop(stack, &a);
-		} else if (strcmp(input, "clear") == 0 || strcmp(input, "ac") == 0) {
+		} else if (CMD("clear") || CMD("ac")) {
 			stack->size = 0;
 		} else {
 			// try to read number
